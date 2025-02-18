@@ -1,4 +1,5 @@
 from datetime import datetime
+from flask import abort
 
 # Функция для возврата формата времени в заданном формате
 def get_timestamp():
@@ -25,3 +26,28 @@ PEOPLE = {
 # Та самая функция для вызова со стороны сервера
 def read_all():
     return list(PEOPLE.values())
+
+def create_person(person):
+    lname = person.get("lname")
+    fname = person.get("fname")
+
+    if lname and lname not in PEOPLE:
+        PEOPLE[lname] = {
+            "lname": lname,
+            "fname": fname,
+            "timestamp": get_timestamp()
+        }
+        return PEOPLE[lname], 201
+    else:
+        abort(
+            406,
+            f"Person  with last name {lname} already exists"
+        )
+
+def read_one(lname):
+    if lname in PEOPLE:
+        return PEOPLE[lname]
+    else:
+        abort(
+            404, f"Person with last name {lname} not found"
+        )

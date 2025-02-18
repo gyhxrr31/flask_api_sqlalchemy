@@ -1,0 +1,18 @@
+openapi: 3.0.0
+info: #Информация об АПИ
+  title: "First Flask REST API" #Заголовок
+  description: "An API about people and notes" #Описание
+  version: "1.0.0" #Версия АПИ
+servers:
+  - url: "/api" # URI Апи
+
+paths: # Пути эндпоинтов
+  /people: #Эндпоинт people - путь является относительным
+    get: # Метод запроса GET
+      operationId: "people.read_all" #Connexion будет использовать "people.read_all" для поиска функции Python с именем read_all() в модуле people
+      tags:
+        - "People"
+      summary: "Read the list of people"
+      responses: # Возможные ответы
+        "200":
+          description: "Successfully read people list"
